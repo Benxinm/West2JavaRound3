@@ -19,7 +19,6 @@ public class ConnectToLib {
         Connection connection = Utils.getConnection();
         Statement statement = connection.createStatement();
         ResultSet resultSet=null;
-        ArrayList<Record> listOfRecord = new ArrayList<>();
         System.out.println("请输入sql语句(有两个数据表:goods,orders)");
         while(in.hasNextLine()){
             String sql=in.nextLine();
@@ -38,21 +37,14 @@ public class ConnectToLib {
                             int orderId =resultSet.getInt(1);
                             int goodId = resultSet.getInt(2);
                             Date time =resultSet.getTime(3);
-                            System.out.println(new Order(orderId,goodId,time));
-                            listOfRecord.add(new Order(orderId,goodId,time));
+                            System.out.println(JSON.toJSONString(new Order(orderId,goodId,time)));
                         }else if (sql.contains("goods")){
                             int id =resultSet.getInt(1);
                             String name=resultSet.getString(2);
                             double price=resultSet.getDouble(3);
-                            listOfRecord.add(new Good(id,name,price));
+                            System.out.println(JSON.toJSONString(new Good(id,name,price)));
                         }
                     }
-                    String jsonOutput=JSON.toJSONString(listOfRecord);
-                    String[] split = jsonOutput.split(",");
-                    for (String tmp :split) {
-                        System.out.println(tmp);
-                    }
-                    listOfRecord.clear();
                 }
             }catch (Exception e){
                 System.out.println("sql语句出错");

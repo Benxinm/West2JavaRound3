@@ -30,24 +30,6 @@ public class Utils {
             throw new RuntimeException(e);
         }
     }
-    public static void select(String cols, String database, Connection connection){
-        sql="select ? from ?";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,cols);
-            preparedStatement.setString(2,database);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                int orderId =resultSet.getInt(1);
-                int goodId = resultSet.getInt(2);
-                Date time =resultSet.getDate(3);
-                System.out.println(orderId+"\t"+goodId+"\t"+time);
-            }
-            System.out.println();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
     public static void close(ResultSet set,Statement statement,Connection connection){
         try {
             if (set!=null){
